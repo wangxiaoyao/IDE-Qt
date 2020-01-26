@@ -29,4 +29,7 @@
 # Executables
 *.exe
 *.out
+
 *.app
+
+build-IDE-Qt-Desktop_Qt_5_14_0_clang_64bit-Debug/
