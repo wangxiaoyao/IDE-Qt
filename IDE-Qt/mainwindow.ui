@@ -65,7 +65,7 @@
     <property name="title">
      <string>构建</string>
     </property>
-    <addaction name="actionedit"/>
+    <addaction name="actioncompile"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -118,9 +118,9 @@
     <string>剪切</string>
    </property>
   </action>
-  <action name="actionedit">
+  <action name="actioncompile">
    <property name="text">
-    <string>编辑</string>
+    <string>编译</string>
    </property>
   </action>
   <action name="actionabout">
