@@ -59,7 +59,7 @@
     <addaction name="actioncopy"/>
     <addaction name="actionpaste"/>
     <addaction name="actioncut"/>
-    <addaction name="actionrepeal"/>
+    <addaction name="actionundo"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -118,11 +118,6 @@
     <string>剪切</string>
    </property>
   </action>
-  <action name="actionrepeal">
-   <property name="text">
-    <string>撤销</string>
-   </property>
-  </action>
   <action name="actionedit">
    <property name="text">
     <string>编辑</string>
@@ -131,6 +126,11 @@
   <action name="actionabout">
    <property name="text">
     <string>关于</string>
+   </property>
+  </action>
+  <action name="actionundo">
+   <property name="text">
+    <string>撤销</string>
    </property>
   </action>
  </widget>

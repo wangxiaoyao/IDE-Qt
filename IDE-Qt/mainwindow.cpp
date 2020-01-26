@@ -111,3 +111,24 @@ void MainWindow::on_actionexit_triggered()__attribute__((noreturn))
 {
     exit(0);
 }
+void MainWindow::on_actioncopy_triggered()
+{
+    ui->textEdit->copy();
+}
+
+
+void MainWindow::on_actionpaste_triggered()
+{
+    ui->textEdit->paste();
+}
+
+
+void MainWindow::on_actioncut_triggered()
+{
+    ui->textEdit->cut();
+}
+
+void MainWindow::on_actionundo_triggered()
+{
+    ui->textEdit->undo();
+}
