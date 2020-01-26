@@ -14,6 +14,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    static QString fileName;
 
 private slots:
     void on_actionopen_triggered();
@@ -31,6 +32,10 @@ private slots:
     void on_actioncut_triggered();
 
     void on_actionundo_triggered();
+
+    void saveFile(const char *buf , const char *file);
+
+    void on_actionsavesa_triggered();
 
 private:
     Ui::MainWindow *ui;

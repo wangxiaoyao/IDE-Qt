@@ -8,6 +8,8 @@
 #define couts qDebug()
 
 
+QString MainWindow::fileName = nullptr;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -20,10 +22,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::saveFile(const char *buf, const char *file){
+    FILE *fp = fopen(file,"w");
+    if(!fp){
+        return;
+    }
+    fputs(buf,fp);
+    fclose(fp);
 
+}
 void MainWindow::on_actionopen_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName();
+    fileName = QFileDialog::getOpenFileName();
     couts <<"==="<< fileName <<"====";
 
     /*
@@ -63,23 +73,20 @@ void MainWindow::on_actionopen_triggered()
 }
 void MainWindow::on_actionsave_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName();
-    couts <<"==="<< fileName <<"====";
+    if(fileName==nullptr){
+        fileName = QFileDialog::getSaveFileName();
+    }
+
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     char * file = codec->fromUnicode(fileName).data();
-    FILE *fp = fopen(file,"w");
-    if(!fp){
-        return;
-    }
-    couts << "文件打开成功";
+
     QString txt= ui->textEdit->toPlainText();
 
     // 两种方式： QString =》 char *
-//    char *buf = codec->fromUnicode(txt).data();
-    const char *buf = txt.toStdString().data();
+    char *buf = codec->fromUnicode(txt).data();
+//    const char *buf = txt.toStdString().data();
 
-    fputs(buf,fp);
-    fclose(fp);
+    saveFile(buf,file);
 
     /*
     QFile file;
@@ -95,8 +102,20 @@ void MainWindow::on_actionsave_triggered()
     */
 }
 
+void MainWindow::on_actionsavesa_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName();
+    QTextCodec *codec = QTextCodec::codecForName("utf-8");
+    char * file = codec->fromUnicode(fileName).data();
 
+    QString txt= ui->textEdit->toPlainText();
 
+    // 两种方式： QString =》 char *
+    char *buf = codec->fromUnicode(txt).data();
+//    const char *buf = txt.toStdString().data();
+
+    saveFile(buf,file);
+}
 
 void MainWindow::on_actionnew_triggered()
 {
@@ -104,6 +123,7 @@ void MainWindow::on_actionnew_triggered()
     if(!txt.isEmpty()){
         ui->textEdit->clear();
     }
+    fileName.clear();
 }
 
 
@@ -132,3 +152,5 @@ void MainWindow::on_actionundo_triggered()
 {
     ui->textEdit->undo();
 }
+
+
