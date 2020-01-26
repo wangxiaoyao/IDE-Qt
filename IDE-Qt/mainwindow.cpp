@@ -94,3 +94,20 @@ void MainWindow::on_actionsave_triggered()
     file.close();
     */
 }
+
+
+
+
+void MainWindow::on_actionnew_triggered()
+{
+    QString txt = ui->textEdit->toPlainText();
+    if(!txt.isEmpty()){
+        ui->textEdit->clear();
+    }
+}
+
+
+void MainWindow::on_actionexit_triggered()__attribute__((noreturn))
+{
+    exit(0);
+}
