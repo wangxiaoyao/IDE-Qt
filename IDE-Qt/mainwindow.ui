@@ -66,6 +66,7 @@
      <string>构建</string>
     </property>
     <addaction name="actioncompile"/>
+    <addaction name="actionrun"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -131,6 +132,11 @@
   <action name="actionundo">
    <property name="text">
     <string>撤销</string>
+   </property>
+  </action>
+  <action name="actionrun">
+   <property name="text">
+    <string>执行</string>
    </property>
   </action>
  </widget>

@@ -23,6 +23,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+// 提取出来的保存文件函数：参数：内容和文件
 void MainWindow::saveFile(const char *buf, const char *file){
     FILE *fp = fopen(file,"w");
     if(!fp){
@@ -101,6 +102,7 @@ void MainWindow::on_actionsave_triggered()
     */
 }
 
+// 另存为
 void MainWindow::on_actionsavesa_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName();
@@ -108,14 +110,11 @@ void MainWindow::on_actionsavesa_triggered()
     char * file = codec->fromUnicode(fileName).data();
 
     QString txt= ui->textEdit->toPlainText();
-
-    // 两种方式： QString =》 char *
     char *buf = codec->fromUnicode(txt).data();
-//    const char *buf = txt.toStdString().data();
-
     saveFile(buf,file);
 }
 
+// 新建
 void MainWindow::on_actionnew_triggered()
 {
     QString txt = ui->textEdit->toPlainText();
@@ -177,20 +176,25 @@ void MainWindow::on_actioncompile_triggered()
         QString des = fileName;
         des.replace(".c"," ");
         char *desPointer = codec->fromUnicode(des).data();
-        couts<<desPointer;
         char com[1024] = "gcc -o ";
         strcat(com,desPointer);
         strcat(com,file);
         system(com);
+    }
+}
 
-        // 利用QFileInfo类进行文件的判断
-        couts<<desPointer;
-        couts<<1;
-        QFileInfo fileInfo(desPointer);
-        couts<< fileInfo.exists();
-        if(fileInfo.exists()){
-            couts<<desPointer;
-            system(desPointer);
-        }
+void MainWindow::on_actionrun_triggered()
+{
+    if(fileName==nullptr){
+        // 补充弹出框
+        couts<< "请先保存";
+        MainWindow::on_actionsave_triggered();
+    }else{
+        QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+        // codec->fromUnicode(fileName) 是QByteArray   => data()  成为char *
+        QString des = fileName;
+        des.replace(".c","");
+        char *desPointer = codec->fromUnicode(des).data();
+        system(desPointer);
     }
 }
