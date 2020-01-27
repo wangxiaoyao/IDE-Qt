@@ -37,6 +37,8 @@ private slots:
 
     void on_actionsavesa_triggered();
 
+    void on_actioncompile_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

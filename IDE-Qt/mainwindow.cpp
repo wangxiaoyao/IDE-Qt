@@ -154,3 +154,32 @@ void MainWindow::on_actionundo_triggered()
 }
 
 
+
+void MainWindow::on_actioncompile_triggered()
+{
+    /*
+     * 1 判断文件是否保存。
+     * 2 保存：
+     * 3 没有保存：
+     * 4 编译： system("gcc fileName -o fileName不要.c")  以及考虑报错的情况
+     */
+    if(fileName==nullptr){
+        fileName = QFileDialog::getSaveFileName();
+    }
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    // codec->fromUnicode(fileName) 是QByteArray   => data()  成为char *
+    char *file = codec->fromUnicode(fileName).data();
+    couts<< file;
+    QString res = fileName.replace(".c"," ");
+    char *resPointer = codec->fromUnicode(res).data();
+    char com[1024] = "gcc -o ";
+    strcat(com,resPointer);
+    strcat(com,file);
+    couts<< com;
+    system(com);
+
+    if(system(com)){
+        couts<<resPointer;
+        system(resPointer);
+    }
+}
