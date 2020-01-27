@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QString>
 #include <QTextCodec>
+#include <QFileInfo>
 #include <QDebug>
 #define couts qDebug()
 
@@ -34,8 +35,6 @@ void MainWindow::saveFile(const char *buf, const char *file){
 void MainWindow::on_actionopen_triggered()
 {
     fileName = QFileDialog::getOpenFileName();
-    couts <<"==="<< fileName <<"====";
-
     /*
     // Qstring 类型和 char* 类型。需要先转类型,或者使用QFile类. window下为GBK
     // 1 fromUnicode 为将QString转为char *  2 反之用toUnicode
@@ -165,21 +164,33 @@ void MainWindow::on_actioncompile_triggered()
      */
     if(fileName==nullptr){
         fileName = QFileDialog::getSaveFileName();
-    }
-    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-    // codec->fromUnicode(fileName) 是QByteArray   => data()  成为char *
-    char *file = codec->fromUnicode(fileName).data();
-    couts<< file;
-    QString res = fileName.replace(".c"," ");
-    char *resPointer = codec->fromUnicode(res).data();
-    char com[1024] = "gcc -o ";
-    strcat(com,resPointer);
-    strcat(com,file);
-    couts<< com;
-    system(com);
+        QTextCodec *codec = QTextCodec::codecForName("utf-8");
+        char * file = codec->fromUnicode(fileName).data();
 
-    if(system(com)){
-        couts<<resPointer;
-        system(resPointer);
+        QString txt= ui->textEdit->toPlainText();
+        char *buf = codec->fromUnicode(txt).data();
+        saveFile(buf,file);
+    } else{
+        QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+        // codec->fromUnicode(fileName) 是QByteArray   => data()  成为char *
+        char *file = codec->fromUnicode(fileName).data();
+        QString des = fileName;
+        des.replace(".c"," ");
+        char *desPointer = codec->fromUnicode(des).data();
+        couts<<desPointer;
+        char com[1024] = "gcc -o ";
+        strcat(com,desPointer);
+        strcat(com,file);
+        system(com);
+
+        // 利用QFileInfo类进行文件的判断
+        couts<<desPointer;
+        couts<<1;
+        QFileInfo fileInfo(desPointer);
+        couts<< fileInfo.exists();
+        if(fileInfo.exists()){
+            couts<<desPointer;
+            system(desPointer);
+        }
     }
 }
