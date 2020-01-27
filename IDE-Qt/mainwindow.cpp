@@ -155,20 +155,8 @@ void MainWindow::on_actionundo_triggered()
 
 void MainWindow::on_actioncompile_triggered()
 {
-    /*
-     * 1 判断文件是否保存。
-     * 2 保存：
-     * 3 没有保存：
-     * 4 编译： system("gcc fileName -o fileName不要.c")  以及考虑报错的情况
-     */
     if(fileName==nullptr){
-        fileName = QFileDialog::getSaveFileName();
-        QTextCodec *codec = QTextCodec::codecForName("utf-8");
-        char * file = codec->fromUnicode(fileName).data();
-
-        QString txt= ui->textEdit->toPlainText();
-        char *buf = codec->fromUnicode(txt).data();
-        saveFile(buf,file);
+        MainWindow::on_actionsave_triggered();
     } else{
         QTextCodec *codec = QTextCodec::codecForName("UTF-8");
         // codec->fromUnicode(fileName) 是QByteArray   => data()  成为char *
@@ -197,4 +185,10 @@ void MainWindow::on_actionrun_triggered()
         char *desPointer = codec->fromUnicode(des).data();
         system(desPointer);
     }
+}
+
+void MainWindow::on_actionabout_triggered()
+{
+    couts<< "一款简陋的C++ IDE";
+    couts<< "相关信息参见README";
 }
